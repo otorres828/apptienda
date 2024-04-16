@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Dimensions,
   Image,
@@ -24,15 +24,25 @@ const cardWidth = width / 2 - 20;
 const HomeScreen = ({navigation}) => {
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [searchText, setSearchText] = useState('');
+  const [categorias, setCategorias] = useState('');
+  const [productos, setProductos] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
 
-
+  
+  const onRefresh = () => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  };
+  
   const ListCategories = () => {
     return (
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={style.categoriesListContainer}>
-        {categories.map((category, index) => (
+        {categorias && categorias.map((category, index) => (
           <TouchableOpacity
             key={index}
             activeOpacity={0.8}
@@ -100,57 +110,68 @@ const HomeScreen = ({navigation}) => {
     );
   };
 
-  const filteredFoods = foods.filter(food =>
+  const filteredFoods = productos.filter(food =>
     (!selectedCategoryId || food.category_id == selectedCategoryId) &&
     food.name.toLowerCase().includes(searchText.toLowerCase())
  );
 
+ useEffect(()=> {
+    setCategorias(categories)
+    setProductos(foods)
+ },[])
+
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLORS.white}}>
-      <View style={style.header}>
-        <View>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={{fontSize: 28}}>Hola,</Text>
-            <Text style={{fontSize: 28, fontWeight: 'bold', marginLeft: 10}}>
-              amigo/a
+      <View
+      refreshing={refreshing}
+      onRefresh={onRefresh}
+      >
+        <View style={style.header}>
+          <View>
+            <View style={{flexDirection: 'row'}}>
+              <Text style={{fontSize: 28}}>Hola,</Text>
+              <Text style={{fontSize: 28, fontWeight: 'bold', marginLeft: 10}}>
+                amigo/a
+              </Text>
+            </View>
+            <Text style={{marginTop: 5, fontSize: 22, color: COLORS.grey}}>
+              ¿Qué vas a pedir hoy?
             </Text>
           </View>
-          <Text style={{marginTop: 5, fontSize: 22, color: COLORS.grey}}>
-            ¿Qué vas a pedir hoy?
-          </Text>
+          {/* <Image
+            source={require('../../assets/person.png')}
+            style={{height: 50, width: 50, borderRadius: 25}}
+          /> */}
         </View>
-        {/* <Image
-          source={require('../../assets/person.png')}
-          style={{height: 50, width: 50, borderRadius: 25}}
-        /> */}
-      </View>
-      <View
-        style={{
-          marginTop: 40,
-          flexDirection: 'row',
-          paddingHorizontal: 20,
-        }}>
-        <View style={style.inputContainer}>
-          <Icon name="search" size={28} />
-          <TextInput
-            style={{flex: 1, fontSize: 18}}
-            placeholder="Busca tu producto..."
-            onChangeText={text => setSearchText(text)} 
-          />
+        <View
+          style={{
+            marginTop: 40,
+            flexDirection: 'row',
+            paddingHorizontal: 20,
+          }}>
+          <View style={style.inputContainer}>
+            <Icon name="search" size={28} />
+            <TextInput
+              style={{flex: 1, fontSize: 18}}
+              placeholder="Busca tu producto..."
+              onChangeText={text => setSearchText(text)} 
+            />
+          </View>
+          <View style={style.sortBtn}>
+            <Icon name="tune" size={28} color={COLORS.white} />
+          </View>
         </View>
-        <View style={style.sortBtn}>
-          <Icon name="tune" size={28} color={COLORS.white} />
+        <View>
+          <ListCategories />
         </View>
+      {productos&& <FlatList
+          showsVerticalScrollIndicator={false}
+          numColumns={2}
+          data={filteredFoods}
+          renderItem={({item}) => <Card food={item} />}
+        />}
+
       </View>
-      <View>
-        <ListCategories />
-      </View>
-      <FlatList
-        showsVerticalScrollIndicator={false}
-        numColumns={2}
-        data={filteredFoods}
-        renderItem={({item}) => <Card food={item} />}
-      />
     </SafeAreaView>
   );
 };

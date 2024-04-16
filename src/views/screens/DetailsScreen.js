@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { SafeAreaView, StyleSheet, View, Text, Image } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import COLORS from '../../consts/colors';
 import { SecondaryButton } from '../components/Button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { CartContext } from './Carrito';
 
 const DetailsScreen = ({ navigation, route }) => {
   const item = route.params;
   const [isItemFavorite, setIsItemFavorite] = React.useState(false);
+  const { setCartItems ,setTotal} = useContext(CartContext);
 
   React.useEffect(() => {
     const checkFavorite = async () => {
@@ -19,31 +21,59 @@ const DetailsScreen = ({ navigation, route }) => {
     checkFavorite();
   }, [item]);
 
-  const saveFavorite = async (item) => {
+  const addToCart = async (item) => {
     try {
-       const favorites = await AsyncStorage.getItem('favorites');
-       const parsedFavorites = JSON.parse(favorites) || [];
-       let updatedFavorites;
+       const carts = await AsyncStorage.getItem('carts');
+       const parsedCarts = JSON.parse(carts) || [];
+       let updatedCarts;
    
-       // Verificar si el ítem ya está en favoritos
-       const isFavorite = parsedFavorites.some(favorite => favorite.id == item.id);
+       // Verificar si el ítem ya está en el carrito
+       const isInCart = parsedCarts.some(cartItem => cartItem.id === item.id);
    
-       if (isFavorite) {
-         // Si el ítem ya está en favoritos, eliminarlo
-         updatedFavorites = parsedFavorites.filter(favorite => favorite.id !== item.id);
+       if (!isInCart) {
+         // Si el ítem no está en el carrito, añadirlo
+         // Añadir el campo 'cantidad' al ítem antes de añadirlo al carrito
+         const itemWithQuantity = { ...item, cantidad: 1 };
+         updatedCarts = [...parsedCarts, itemWithQuantity];
        } else {
-         // Si no está en favoritos, añadirlo
-         updatedFavorites = [...parsedFavorites, item];
+         // Si el ítem ya está en el carrito, no hacer nada
+         updatedCarts = parsedCarts;
        }
    
-       await AsyncStorage.setItem('favorites', JSON.stringify(updatedFavorites));
-       setIsItemFavorite(!isFavorite); // Actualizar el estado local
+       await AsyncStorage.setItem('carts', JSON.stringify(updatedCarts));
+       setCartItems(updatedCarts); 
+       const totalPrice = updatedCarts.reduce((acc, item) => acc + parseFloat(item.price * item.cantidad), 0);
+       setTotal(totalPrice);
     } catch (error) {
        console.error(error);
     }
    };
-
    
+  const saveFavorite = async (item) => {
+    try {
+      const favorites = await AsyncStorage.getItem('favorites');
+      const parsedFavorites = JSON.parse(favorites) || [];
+      let updatedFavorites;
+
+      // Verificar si el ítem ya está en favoritos
+      const isFavorite = parsedFavorites.some(favorite => favorite.id == item.id);
+
+      if (isFavorite) {
+        // Si el ítem ya está en favoritos, eliminarlo
+        updatedFavorites = parsedFavorites.filter(favorite => favorite.id !== item.id);
+      } else {
+        // Si no está en favoritos, añadirlo
+        updatedFavorites = [...parsedFavorites, item];
+      }
+
+      await AsyncStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+      setIsItemFavorite(!isFavorite); // Actualizar el estado local
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+
   const isFavorite = async (item) => {
     try {
       const favorites = await AsyncStorage.getItem('favorites');
@@ -102,9 +132,14 @@ const DetailsScreen = ({ navigation, route }) => {
             only five centuries.
           </Text>
           <View style={{ marginTop: 40, marginBottom: 40 }}>
-            <SecondaryButton title="Añadir al Carrito"
-              onPress={() => navigation.navigate('Carrito')}
+            <SecondaryButton
+              title="Añadir al Carrito"
+              onPress={() => {
+                addToCart(item);
+                navigation.navigate('Carrito');
+              }}
             />
+
           </View>
         </View>
       </ScrollView>
