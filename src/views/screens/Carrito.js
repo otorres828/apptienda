@@ -74,12 +74,19 @@ const Carrito = ({ navigation }) => {
 
     return (
       <View style={style.cartCard}>
-        <Image source={item.image} style={{ height: 80, width: 80 }} />
+        <TouchableOpacity onPress={() => navigation.navigate('DetailsScreen', item)}>
+          <Image source={item.image} style={{ height: 80, width: 80 }} />
+        </TouchableOpacity>
+
+
         <View style={{ height: 100, marginLeft: 10, paddingVertical: 20, flex: 1 }}>
-          <Text style={{ fontWeight: 'bold', fontSize: 16 }}>{item.name}</Text>
-          <Text style={{ fontSize: 13, color: COLORS.grey }}>{item.ingredients}</Text>
-          <Text style={{ fontSize: 17, fontWeight: 'bold' }}>${item.price}</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('DetailsScreen', item)}>
+            <Text style={{ fontWeight: 'bold', fontSize: 16 }}>{item.name}</Text>
+            <Text style={{ fontSize: 13, color: COLORS.grey }}>{item.ingredients}</Text>
+            <Text style={{ fontSize: 17, fontWeight: 'bold' }}>${item.price}</Text>
+          </TouchableOpacity>
         </View>
+
         <View style={{ marginRight: 20, alignItems: 'center' }}>
           <Text style={{ fontWeight: 'bold', fontSize: 18 }}> {item.cantidad} </Text>
 

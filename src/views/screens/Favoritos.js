@@ -8,7 +8,6 @@ import COLORS from '../../consts/colors';
 import { Alert } from 'react-native';
 import CartCard from '../components/CartCard';
 import style from '../components/Style';
-import {PrimaryButton} from '../components/Button'
 
 const Favoritos = ({ navigation }) => {
   const [favoriteFoods, setFavoriteFoods] = useState([]);
