@@ -122,10 +122,8 @@ const HomeScreen = ({navigation}) => {
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLORS.white}}>
-      <View
-      refreshing={refreshing}
-      onRefresh={onRefresh}
-      >
+      {/* <View
+      > */}
         <View style={style.header}>
           <View>
             <View style={{flexDirection: 'row'}}>
@@ -171,7 +169,7 @@ const HomeScreen = ({navigation}) => {
           renderItem={({item}) => <Card food={item} />}
         />}
 
-      </View>
+      {/* </View> */}
     </SafeAreaView>
   );
 };

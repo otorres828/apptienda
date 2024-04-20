@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import COLORS from '../../consts/colors';
 import {View} from 'react-native';
 import HomeScreen from '../screens/HomeScreen';
-import CartScreen from '../screens/CartScreen';
+import CartScreen from '../screens/Carrito';
 import Favoritos from '../screens/Favoritos';
 import HomeDetalle from '../screens/HomeDetalle';
 
@@ -41,7 +41,7 @@ const NavegacionHorizontal = () => {
           ),
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Search"
         component={HomeScreen}
         options={{
@@ -63,7 +63,7 @@ const NavegacionHorizontal = () => {
             </View>
           ),
         }}
-      />
+      /> */}
       <Tab.Screen
         name="Favorite"
         component={Favoritos}

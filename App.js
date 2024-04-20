@@ -8,25 +8,25 @@ import { createStackNavigator } from '@react-navigation/stack';
 import COLORS from './src/consts/colors';
 import { StatusBar } from 'expo-status-bar';
 import Favoritos from './src/views/screens/Favoritos';
-import CartScreen from './src/views/screens/CartScreen';
-import { CartProvider } from './src/views/screens/Carrito';
+import Carrito from './src/views/screens/Carrito';
+import { CarritoProvider } from './src/views/screens/CarritoProvider';
 
 const Stack = createStackNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-      <CartProvider>
+      <CarritoProvider>
         <StatusBar style="auto" />
         <StatusBar backgroundColor={COLORS.white} barStyle="dark-content" />
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="BoardScreen" component={OnBoardScreen} />
           <Stack.Screen name="Home" component={NavegacionHorizontal} />
           <Stack.Screen name="Favoritos" component={Favoritos} />
-          <Stack.Screen name="Carrito" component={CartScreen} />
+          <Stack.Screen name="Carrito" component={Carrito} />
           <Stack.Screen name="DetailsScreen" component={DetailsScreen} />
         </Stack.Navigator>
-      </CartProvider>
+      </CarritoProvider>
     </NavigationContainer>
   );
 };

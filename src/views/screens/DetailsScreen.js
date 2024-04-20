@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import COLORS from '../../consts/colors';
 import { SecondaryButton } from '../components/Button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { CartContext } from './Carrito';
+import { CartContext } from './CarritoProvider';
 
 const DetailsScreen = ({ navigation, route }) => {
   const item = route.params;
@@ -32,7 +32,6 @@ const DetailsScreen = ({ navigation, route }) => {
    
        if (!isInCart) {
          // Si el ítem no está en el carrito, añadirlo
-         // Añadir el campo 'cantidad' al ítem antes de añadirlo al carrito
          const itemWithQuantity = { ...item, cantidad: 1 };
          updatedCarts = [...parsedCarts, itemWithQuantity];
        } else {
@@ -42,7 +41,7 @@ const DetailsScreen = ({ navigation, route }) => {
    
        await AsyncStorage.setItem('carts', JSON.stringify(updatedCarts));
        setCartItems(updatedCarts); 
-       const totalPrice = updatedCarts.reduce((acc, item) => acc + parseFloat(item.price * item.cantidad), 0);
+       var totalPrice = updatedCarts.reduce((acc, item) => acc + parseFloat(item.price * item.cantidad), 0);
        setTotal(totalPrice);
     } catch (error) {
        console.error(error);
