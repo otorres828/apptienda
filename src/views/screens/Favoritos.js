@@ -57,8 +57,6 @@ const Favoritos = ({ navigation }) => {
         <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Favoritos</Text>
       </View>
       <FlatList
-        showsVerticalScrollIndicator={false}
-        // keyExtractor={(item) => (item.id + Math.floor((Math.random() * (10000 - 1 + 1)) + 1))}
         contentContainerStyle={{ paddingBottom: 80 }}
         data={favoriteFoods}
         renderItem={({ item }) => <CartCard item={item} navigation={navigation} removerFavorito={() => removerFavorito(item)} />}

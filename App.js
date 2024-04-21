@@ -17,7 +17,6 @@ export default function App() {
   return (
     <NavigationContainer>
       <CarritoProvider>
-        <StatusBar style="auto" />
         <StatusBar backgroundColor={COLORS.white} barStyle="dark-content" />
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="BoardScreen" component={OnBoardScreen} />

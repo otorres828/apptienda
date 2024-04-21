@@ -152,7 +152,7 @@ const Carrito = ({ navigation }) => {
           />
         }
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 80 }}
+        contentContainerStyle={{ paddingBottom: 50 }}
         data={cartItems}
         renderItem={({ item }) => <CartCard item={item} />}
         ListFooterComponentStyle={{ paddingHorizontal: 20, marginTop: 20 }}

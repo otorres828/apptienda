@@ -27,6 +27,7 @@
     "react-native-screens": "~3.29.0",
     "react-native-send-direct-sms": "^0.2.0",
     "react-native-swipe-list-view": "^3.2.9",
+    "react-native-toast-message": "^2.2.0",
     "react-native-vector-icons": "^7.1.0",
     "react-native-web": "~0.19.6"
   },
