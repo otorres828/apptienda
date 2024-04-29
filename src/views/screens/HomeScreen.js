@@ -77,11 +77,12 @@ const HomeScreen = ({ navigation }) => {
     Toast.show({
       type: 'success',
       text1: 'Producto agregado al carrito',
-      visibilityTime:1500,
+      visibilityTime: 1500,
       style: {
-        zIndex: 999999,
-     },
-     backgroundColor: 'tomato'
+        backgroundColor: 'tomato', // Set the background color here
+        opacity: 100, // Ensure full opacity (0 for transparent, 1 for opaque)
+        zIndex: 999999, 
+      },
     });
 
     try {
@@ -161,7 +162,7 @@ const HomeScreen = ({ navigation }) => {
   }, [])
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white,zIndex:10 }}>
 
       <Toast zIndex={1000000} />
 
@@ -185,7 +186,7 @@ const HomeScreen = ({ navigation }) => {
 
       <View
         style={{
-          marginTop: 40,
+          marginTop: 20,
           flexDirection: 'row',
           paddingHorizontal: 20,
         }}>

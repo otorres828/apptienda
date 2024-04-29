@@ -10,6 +10,7 @@ import { StatusBar } from 'expo-status-bar';
 import Favoritos from './src/views/screens/Favoritos';
 import Carrito from './src/views/screens/Carrito';
 import { CarritoProvider } from './src/views/screens/CarritoProvider';
+import HomeScreen from './src/views/screens/HomeScreen';
 
 const Stack = createStackNavigator();
 

@@ -14,7 +14,7 @@ const Carrito = ({ navigation }) => {
   const [refreshing, setRefreshing] = useState(false);
 
   function sendWhatsAppMessage() {
-    let messageItems = cartItems.map(item => `- ${item.name} de ${item.price}$`).join('\n');
+    let messageItems = cartItems.map(item => `- ${item.cantidad} ${item.name} de ${item.price}$`).join('\n');
     const totalMessage = `para un total de ${total.toFixed(2)}$`;
     const message = encodeURIComponent(`Saludos, estoy interesado en pedir lo siguiente:\n\n${messageItems}\n\n${totalMessage}`);
     const phoneNumber = "+34604156393";
